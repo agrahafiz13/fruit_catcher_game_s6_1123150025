@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flame/game.dart';
+import 'game/fruit_catcher_game.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,10 +11,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fruit Catcher Game',
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const GameScreen(),
+      home: GameScreen(),
     );
   }
 }
@@ -25,13 +26,20 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  final ValueNotifier<int> counter = ValueNotifier(0);
+  late FruitCatcherGame game;
+
+  @override
+  void initState() {
+    super.initState();
+    game = FruitCatcherGame();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
+          GameWidget(game: game),
           Positioned(
             top: 50,
             left: 20,
@@ -42,7 +50,7 @@ class _GameScreenState extends State<GameScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: ValueListenableBuilder<int>(
-                valueListenable: counter,
+                valueListenable: game.scoreNotifier,
                 builder: (context, score, child) {
                   return Text(
                     'Score: $score',
