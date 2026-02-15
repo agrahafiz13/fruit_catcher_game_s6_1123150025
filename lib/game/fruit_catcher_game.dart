@@ -11,4 +11,9 @@ class FruitCatcherGame extends FlameGame {
     await super.onLoad();
     AudioManager().playBackgroundMusic();
   }
+
+  void incrementScore() {
+    scoreNotifier.value++;
+    AudioManager().playSfx('collect.mp3');
+  }
 }
